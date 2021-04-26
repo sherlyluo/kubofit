@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "e8c11665-c8e3-4a75-bfae-4614d78221c4",
+		"name": "Kubofit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ba2be4b-ff43-4f73-9d6d-97a8a2031a96",
+						"exec": [
+							"console.log(\"Create user plan\")",
+							"pm.test(\"Status test\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"/*pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});*/",
+							"",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"if(pm.response.code ==200)",
+							"{",
+							"    postman.setGlobalVariable(\"workout_id\",jsonData[\"user-plan\"].workouts[0].id);",
+							"    postman.setGlobalVariable(\"exercise_id\",jsonData[\"user-plan\"].exercises[0].id);",
+							"    postman.setGlobalVariable(\"plan_id\",jsonData[\"user-plan\"].phase.id); ",
+							"",
+							"}",
+							"",
+							"if(responseBody.has(\"Success\")) //or any other success condition",
+							"{",
+							"    postman.setNextRequest('Get user plan');",
+							"",
+							"}",
+							"console.log(pm.globals);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJic0hSeVNCZ3BvOTM4ay01dmZQeksxVnJWSGgzbGRwYjc5b1h5VGtlQnlrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnV3YVh6STgyTzFGWVUzVWxiSFBQN1hrVkd4VnluVkFBdzZVQXBfTUhUTlUub2FyMzZ1Nzg2Q21jSG04YXAxZDYiLCJpc3MiOiJodHRwczovL2lkLm56LmpldHRzLmRldi9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2FwaS5uei5qZXR0cy5kZXYiLCJpYXQiOjE2MTkzMzIzODIsImV4cCI6MTYxOTMzNDE4MiwiY2lkIjoiMG9hZ242eWtjWWFRMm5MUm8xZDYiLCJ1aWQiOiIwMHVjOGoydjVFYk1CQ3p0QzFkNiIsInNjcCI6WyJvZmZsaW5lX2FjY2VzcyIsInByb2ZpbGUiLCJvcGVuaWQiXSwic3ViIjoiU2hpcmxleS5MdW9AYXBwc2NvcmUuY29tLmF1IiwiaG9tZV9jbHViX2lkIjoiNDBlOWJmOTQtYWY2ZC00ZWM2LTg3OTgtOGY1ZjY3YTBiYTQxIiwic291cmNlX3N5c3RlbV9pZCI6ImIwZDY3OWE4LTA4OGYtNDk1MC1iY2M1LTMwZTk0OWY5MDM4YiJ9.gPBfzv9lYqdVZvA_dZp5O9Bh38utRwEt2zXIYbtiFqWam1V_T5VaKIucGgCc92cV20o73Fw5IuPb5JxXc6XbMm6169EGAGjYdTVfj976IHC4Pg8m_6UforlCt9pwV6obhdaxcjWje8K4M3DWMJZDWkFUeYRQfXQFEVTWwUX7xifRWNozoDecmMUv_fK5BhUW_tKJ8AzqTaVNecgt6eBud2Y-SglTdki0f_JCenvVGBE6kVPrtaXKcf2XfMpQEL0mUq5e_SH0h013tgSX2l5KOisXXyqV3PeYLQthujnlDaXgsAFcxlxt60vY7FLlNAnYG6vHSMxLjFlEYskHIIwpTQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"member_id\": \"b0d679a8-088f-4950-bcc5-30e949f9038b\",\n\t\"goal\": \"build-strength\",\n\t\"level\": \"beginner\",\n\t\"phase\": \"phase-2\",\n\t\"workout_days\": [\"Sunday\", \"Monday\"],\n\t\"workout_start_date\": \"2021-04-23\",\n\t\"reminder_time\": \"19:30\",\n\t\"timezone\": \"AEST\"\n}\n"
+				},
+				"url": {
+					"raw": "{{kubofit_plan}}",
+					"host": [
+						"{{kubofit_plan}}"
+					]
+				},
+				"description": "end plan"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a223acb-c61f-4248-b11f-7c2b94bc468e",
+						"exec": [
+							"console.log(\"Get user plan\")",
+							"pm.test(\"Status test\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"/*pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});*/",
+							"",
+							"",
+							"/*var jsonData = JSON.parse(responseBody);",
+							"if(jsonData[\"user-plan\"] !=null)",
+							"postman.setGlobalVariable(\"plan_id\",jsonData[\"user-plan\"].phase.id);",
+							"",
+							"if(responseBody.has(\"Success\")) //or any other success condition",
+							"{",
+							"    postman.setNextRequest('Continue Processing');",
+							"    tests[\"Success found\"] = true;",
+							"}",
+							"else",
+							"{",
+							"    postman.setNextRequest('Delay For 10 Seconds');",
+							"",
+							"}*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJic0hSeVNCZ3BvOTM4ay01dmZQeksxVnJWSGgzbGRwYjc5b1h5VGtlQnlrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnV3YVh6STgyTzFGWVUzVWxiSFBQN1hrVkd4VnluVkFBdzZVQXBfTUhUTlUub2FyMzZ1Nzg2Q21jSG04YXAxZDYiLCJpc3MiOiJodHRwczovL2lkLm56LmpldHRzLmRldi9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2FwaS5uei5qZXR0cy5kZXYiLCJpYXQiOjE2MTkzMzIzODIsImV4cCI6MTYxOTMzNDE4MiwiY2lkIjoiMG9hZ242eWtjWWFRMm5MUm8xZDYiLCJ1aWQiOiIwMHVjOGoydjVFYk1CQ3p0QzFkNiIsInNjcCI6WyJvZmZsaW5lX2FjY2VzcyIsInByb2ZpbGUiLCJvcGVuaWQiXSwic3ViIjoiU2hpcmxleS5MdW9AYXBwc2NvcmUuY29tLmF1IiwiaG9tZV9jbHViX2lkIjoiNDBlOWJmOTQtYWY2ZC00ZWM2LTg3OTgtOGY1ZjY3YTBiYTQxIiwic291cmNlX3N5c3RlbV9pZCI6ImIwZDY3OWE4LTA4OGYtNDk1MC1iY2M1LTMwZTk0OWY5MDM4YiJ9.gPBfzv9lYqdVZvA_dZp5O9Bh38utRwEt2zXIYbtiFqWam1V_T5VaKIucGgCc92cV20o73Fw5IuPb5JxXc6XbMm6169EGAGjYdTVfj976IHC4Pg8m_6UforlCt9pwV6obhdaxcjWje8K4M3DWMJZDWkFUeYRQfXQFEVTWwUX7xifRWNozoDecmMUv_fK5BhUW_tKJ8AzqTaVNecgt6eBud2Y-SglTdki0f_JCenvVGBE6kVPrtaXKcf2XfMpQEL0mUq5e_SH0h013tgSX2l5KOisXXyqV3PeYLQthujnlDaXgsAFcxlxt60vY7FLlNAnYG6vHSMxLjFlEYskHIIwpTQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{kubofit_plan}}/active/b0d679a8-088f-4950-bcc5-30e949f9038b",
+					"host": [
+						"{{kubofit_plan}}"
+					],
+					"path": [
+						"active",
+						"b0d679a8-088f-4950-bcc5-30e949f9038b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark workout in progress",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac6317ab-0ac7-4817-b0e3-85d78bcc5ff9",
+						"exec": [
+							"",
+							"pm.test(\"Status code\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Mark workout in progress\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"not-completed\");",
+							"});",
+							"",
+							"/*if(responseBody.has(\"Success\")) //or any other success condition",
+							"{",
+							"    postman.setNextRequest('Continue Processing');",
+							"    tests[\"Success found\"] = true;",
+							"}",
+							"else",
+							"{",
+							"    postman.setNextRequest('Delay For 10 Seconds');",
+							"}*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"member_id\": \"b0d679a8-088f-4950-bcc5-30e949f9038b\",\n\"type\": \"workout\",\n\"id\": \"{{workout_id}}\",\n\"status\": \"not-completed\"\n}"
+				},
+				"url": {
+					"raw": "{{kubofit_plan}}/active/",
+					"host": [
+						"{{kubofit_plan}}"
+					],
+					"path": [
+						"active",
+						""
+					]
+				},
+				"description": "end plan"
+			},
+			"response": []
+		},
+		{
+			"name": "End exercise",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bca457e7-9569-45e4-b909-82634d1c3d56",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"End exercise\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"completed\");",
+							"});",
+							"",
+							"/*if(responseBody.has(\"Success\")) //or any other success condition",
+							"{",
+							"    postman.setNextRequest('Continue Processing');",
+							"    tests[\"Success found\"] = true;",
+							"}",
+							"else",
+							"{",
+							"    postman.setNextRequest('Delay For 10 Seconds');",
+							"    tests[\"No success found\"] = true;",
+							"}*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJic0hSeVNCZ3BvOTM4ay01dmZQeksxVnJWSGgzbGRwYjc5b1h5VGtlQnlrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnV3YVh6STgyTzFGWVUzVWxiSFBQN1hrVkd4VnluVkFBdzZVQXBfTUhUTlUub2FyMzZ1Nzg2Q21jSG04YXAxZDYiLCJpc3MiOiJodHRwczovL2lkLm56LmpldHRzLmRldi9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2FwaS5uei5qZXR0cy5kZXYiLCJpYXQiOjE2MTkzMzIzODIsImV4cCI6MTYxOTMzNDE4MiwiY2lkIjoiMG9hZ242eWtjWWFRMm5MUm8xZDYiLCJ1aWQiOiIwMHVjOGoydjVFYk1CQ3p0QzFkNiIsInNjcCI6WyJvZmZsaW5lX2FjY2VzcyIsInByb2ZpbGUiLCJvcGVuaWQiXSwic3ViIjoiU2hpcmxleS5MdW9AYXBwc2NvcmUuY29tLmF1IiwiaG9tZV9jbHViX2lkIjoiNDBlOWJmOTQtYWY2ZC00ZWM2LTg3OTgtOGY1ZjY3YTBiYTQxIiwic291cmNlX3N5c3RlbV9pZCI6ImIwZDY3OWE4LTA4OGYtNDk1MC1iY2M1LTMwZTk0OWY5MDM4YiJ9.gPBfzv9lYqdVZvA_dZp5O9Bh38utRwEt2zXIYbtiFqWam1V_T5VaKIucGgCc92cV20o73Fw5IuPb5JxXc6XbMm6169EGAGjYdTVfj976IHC4Pg8m_6UforlCt9pwV6obhdaxcjWje8K4M3DWMJZDWkFUeYRQfXQFEVTWwUX7xifRWNozoDecmMUv_fK5BhUW_tKJ8AzqTaVNecgt6eBud2Y-SglTdki0f_JCenvVGBE6kVPrtaXKcf2XfMpQEL0mUq5e_SH0h013tgSX2l5KOisXXyqV3PeYLQthujnlDaXgsAFcxlxt60vY7FLlNAnYG6vHSMxLjFlEYskHIIwpTQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"member_id\": \"b0d679a8-088f-4950-bcc5-30e949f9038b\",\n\"type\": \"exercise\",\n\"id\": \"{{exercise_id}}\",\n\"status\": \"completed\"\n}"
+				},
+				"url": {
+					"raw": "{{kubofit_plan}}/active/",
+					"host": [
+						"{{kubofit_plan}}"
+					],
+					"path": [
+						"active",
+						""
+					]
+				},
+				"description": "end plan"
+			},
+			"response": []
+		},
+		{
+			"name": "End workout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ff2f5ea-a887-4d0f-b7a7-7568e1c3b824",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"",
+							"/*if(responseBody.has(\"Success\")) //or any other success condition",
+							"{",
+							"    postman.setNextRequest('Continue Processing');",
+							"    tests[\"Success found\"] = true;",
+							"}",
+							"else",
+							"{",
+							"    postman.setNextRequest('Delay For 10 Seconds');",
+							"    tests[\"No success found\"] = true;",
+							"}*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJic0hSeVNCZ3BvOTM4ay01dmZQeksxVnJWSGgzbGRwYjc5b1h5VGtlQnlrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnV3YVh6STgyTzFGWVUzVWxiSFBQN1hrVkd4VnluVkFBdzZVQXBfTUhUTlUub2FyMzZ1Nzg2Q21jSG04YXAxZDYiLCJpc3MiOiJodHRwczovL2lkLm56LmpldHRzLmRldi9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2FwaS5uei5qZXR0cy5kZXYiLCJpYXQiOjE2MTkzMzIzODIsImV4cCI6MTYxOTMzNDE4MiwiY2lkIjoiMG9hZ242eWtjWWFRMm5MUm8xZDYiLCJ1aWQiOiIwMHVjOGoydjVFYk1CQ3p0QzFkNiIsInNjcCI6WyJvZmZsaW5lX2FjY2VzcyIsInByb2ZpbGUiLCJvcGVuaWQiXSwic3ViIjoiU2hpcmxleS5MdW9AYXBwc2NvcmUuY29tLmF1IiwiaG9tZV9jbHViX2lkIjoiNDBlOWJmOTQtYWY2ZC00ZWM2LTg3OTgtOGY1ZjY3YTBiYTQxIiwic291cmNlX3N5c3RlbV9pZCI6ImIwZDY3OWE4LTA4OGYtNDk1MC1iY2M1LTMwZTk0OWY5MDM4YiJ9.gPBfzv9lYqdVZvA_dZp5O9Bh38utRwEt2zXIYbtiFqWam1V_T5VaKIucGgCc92cV20o73Fw5IuPb5JxXc6XbMm6169EGAGjYdTVfj976IHC4Pg8m_6UforlCt9pwV6obhdaxcjWje8K4M3DWMJZDWkFUeYRQfXQFEVTWwUX7xifRWNozoDecmMUv_fK5BhUW_tKJ8AzqTaVNecgt6eBud2Y-SglTdki0f_JCenvVGBE6kVPrtaXKcf2XfMpQEL0mUq5e_SH0h013tgSX2l5KOisXXyqV3PeYLQthujnlDaXgsAFcxlxt60vY7FLlNAnYG6vHSMxLjFlEYskHIIwpTQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"member_id\": \"b0d679a8-088f-4950-bcc5-30e949f9038b\",\n\"type\": \"workout\",\n\"id\": \"{{workout_id}}\",\n\"status\": \"completed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kubofit_plan}}/active/",
+					"host": [
+						"{{kubofit_plan}}"
+					],
+					"path": [
+						"active",
+						""
+					]
+				},
+				"description": "end plan"
+			},
+			"response": []
+		},
+		{
+			"name": "End plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "76479371-5500-4248-83dd-b0de77d165d1",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJic0hSeVNCZ3BvOTM4ay01dmZQeksxVnJWSGgzbGRwYjc5b1h5VGtlQnlrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnV3YVh6STgyTzFGWVUzVWxiSFBQN1hrVkd4VnluVkFBdzZVQXBfTUhUTlUub2FyMzZ1Nzg2Q21jSG04YXAxZDYiLCJpc3MiOiJodHRwczovL2lkLm56LmpldHRzLmRldi9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2FwaS5uei5qZXR0cy5kZXYiLCJpYXQiOjE2MTkzMzIzODIsImV4cCI6MTYxOTMzNDE4MiwiY2lkIjoiMG9hZ242eWtjWWFRMm5MUm8xZDYiLCJ1aWQiOiIwMHVjOGoydjVFYk1CQ3p0QzFkNiIsInNjcCI6WyJvZmZsaW5lX2FjY2VzcyIsInByb2ZpbGUiLCJvcGVuaWQiXSwic3ViIjoiU2hpcmxleS5MdW9AYXBwc2NvcmUuY29tLmF1IiwiaG9tZV9jbHViX2lkIjoiNDBlOWJmOTQtYWY2ZC00ZWM2LTg3OTgtOGY1ZjY3YTBiYTQxIiwic291cmNlX3N5c3RlbV9pZCI6ImIwZDY3OWE4LTA4OGYtNDk1MC1iY2M1LTMwZTk0OWY5MDM4YiJ9.gPBfzv9lYqdVZvA_dZp5O9Bh38utRwEt2zXIYbtiFqWam1V_T5VaKIucGgCc92cV20o73Fw5IuPb5JxXc6XbMm6169EGAGjYdTVfj976IHC4Pg8m_6UforlCt9pwV6obhdaxcjWje8K4M3DWMJZDWkFUeYRQfXQFEVTWwUX7xifRWNozoDecmMUv_fK5BhUW_tKJ8AzqTaVNecgt6eBud2Y-SglTdki0f_JCenvVGBE6kVPrtaXKcf2XfMpQEL0mUq5e_SH0h013tgSX2l5KOisXXyqV3PeYLQthujnlDaXgsAFcxlxt60vY7FLlNAnYG6vHSMxLjFlEYskHIIwpTQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"member_id\": \"b0d679a8-088f-4950-bcc5-30e949f9038b\",\n\"type\": \"plan\",\n\"id\": \"{{plan_id}}\",\n\"status\": \"completed\"\n}"
+				},
+				"url": {
+					"raw": "{{kubofit_plan}}/active/",
+					"host": [
+						"{{kubofit_plan}}"
+					],
+					"path": [
+						"active",
+						""
+					]
+				},
+				"description": "end plan"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJraWQiOiJic0hSeVNCZ3BvOTM4ay01dmZQeksxVnJWSGgzbGRwYjc5b1h5VGtlQnlrIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmVGSWF3T0FINF84OWFhS2F5dl9hZzdZUy1EM25fQXIxTF9HQkJZcHZnb2sub2FyMzZ0ZDJjOElDeHVDZWsxZDYiLCJpc3MiOiJodHRwczovL2lkLm56LmpldHRzLmRldi9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2FwaS5uei5qZXR0cy5kZXYiLCJpYXQiOjE2MTkzMTk5NjksImV4cCI6MTYxOTMyMTc2OSwiY2lkIjoiMG9hZ242eWtjWWFRMm5MUm8xZDYiLCJ1aWQiOiIwMHVjOGoydjVFYk1CQ3p0QzFkNiIsInNjcCI6WyJwcm9maWxlIiwib2ZmbGluZV9hY2Nlc3MiLCJvcGVuaWQiXSwic3ViIjoiU2hpcmxleS5MdW9AYXBwc2NvcmUuY29tLmF1IiwiaG9tZV9jbHViX2lkIjoiNDBlOWJmOTQtYWY2ZC00ZWM2LTg3OTgtOGY1ZjY3YTBiYTQxIiwic291cmNlX3N5c3RlbV9pZCI6ImIwZDY3OWE4LTA4OGYtNDk1MC1iY2M1LTMwZTk0OWY5MDM4YiJ9.kvrmiCA6-HLbxP-4_eVw7ySyjzPSUDYqEHEVhlbgYMarVFoevMtHkksuY-HF-djTPGowxHr3VMzRp0qySVnO9VuEdO33WRum0Z26RDVUyrf0FO27M26fQQo1hkcFJ8FzdeDy17HQy6xBYorlEFaKYDr-kKXo8Ne22WmPsizDMsbHlGgw6vWTntRvmacJE4STv8EDF0atovS2I4vRWh2Oe2NJIYITx-L1kNKqV_iX0R5bnvGe5zLL0v5U3jdCECMbPSMQ6MK6ZEGp2li-uPdt_HGQwSu4cifKqEZl_gOPWVxxhc7hXKYcXKSL29B_8bt_o95anQ-YXwzLTMf2rBalrQ",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "714d8d52-6d39-4b58-a6f8-f2f916469a9a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2a33aafc-d194-4dab-94ef-737a6e09b316",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
